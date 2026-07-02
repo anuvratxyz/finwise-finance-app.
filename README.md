@@ -7,9 +7,8 @@ A modern finance management dashboard built using **HTML, CSS, and JavaScript**,
 ## 🚀 Live Demo
 
 > Add your AWS Amplify URL here after deployment.
+https://main.d3f9thmqek52uo.amplifyapp.com
 
-Example:
-https://your-app.amplifyapp.com
 
 ---
 
