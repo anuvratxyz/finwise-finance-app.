@@ -6,15 +6,11 @@ A modern finance management dashboard built using **HTML, CSS, and JavaScript**,
 
 ## 🚀 Live Demo
 
-> Add your AWS Amplify URL here after deployment.
+
 https://main.d3f9thmqek52uo.amplifyapp.com
 
 
----
 
-## 📸 Preview
-
-> Add screenshots of your dashboard here.
 
 ---
 
@@ -41,13 +37,18 @@ https://main.d3f9thmqek52uo.amplifyapp.com
 ## 🛠️ Tech Stack
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript (ES6)
+React / Next.js
+Tailwind CSS
+Chart.js or Recharts
 
 ### AWS Services
-- Amazon Cognito
-- AWS Amplify
+AWS Lambda          -> backend API functions
+Amazon API Gateway -> REST API routes
+Amazon DynamoDB    -> database
+Amazon Cognito     -> authentication
+Amazon S3          -> file storage if needed
+AWS Amplify        -> frontend hosting + AWS integration
+AWS SDK            -> access AWS services from backend
 
 ### Development Tools
 - Git
@@ -162,7 +163,7 @@ GitHub:
 https://github.com/anuvratxyz
 
 LinkedIn:
-(Add your LinkedIn profile)
+https://www.linkedin.com/in/anuvrat-tomar-2b3bb1364/?skipRedirect=true
 
 ---
 
