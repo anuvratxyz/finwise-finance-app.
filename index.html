@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinWise Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <section class="auth-screen" id="authScreen">
+      <div class="auth-copy">
+        <div class="brand auth-brand">
+          <span class="brand-mark">F</span>
+          <div>
+            <strong>FinWise</strong>
+            <span>Personal banking</span>
+          </div>
+        </div>
+        <h1>Manage your money with a clean, private dashboard</h1>
+        <p>
+          Track transactions, budgets, and spending patterns from one place.
+        </p>
+
+      </div>
+
+      <div class="auth-panel">
+        <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+          <button class="active" id="showSignIn" type="button">Sign in</button>
+          <button id="showSignUp" type="button">Create account</button>
+          <button id="showConfirm" type="button">Confirm email</button>
+        </div>
+
+        <form class="auth-form active" id="signInForm">
+          <div>
+            <h2>Welcome back</h2>
+            <p>Use your email and password to continue.</p>
+
+          </div>
+          <label>
+            Email
+            <input id="signInEmail" autocomplete="email" required type="email" />
+          </label>
+          <label>
+            Password
+            <input id="signInPassword" autocomplete="current-password" required type="password" />
+          </label>
+          <button class="primary-btn" type="submit">Sign in</button>
+        </form>
+
+        <form class="auth-form" id="signUpForm">
+          <div>
+            <h2>Create account</h2>
+            <p>We will email a verification code after signup.</p>
+
+          </div>
+          <label>
+            Email
+            <input id="signUpEmail" autocomplete="email" required type="email" />
+          </label>
+          <label>
+            Password
+            <input id="signUpPassword" autocomplete="new-password" required type="password" />
+          </label>
+          <button class="primary-btn" type="submit">Create account</button>
+        </form>
+
+        <form class="auth-form" id="confirmForm">
+          <div>
+            <h2>Confirm email</h2>
+            <p>Paste the code sent to your email address.</p>
+
+          </div>
+          <label>
+            Email
+            <input id="confirmEmail" autocomplete="email" required type="email" />
+          </label>
+          <label>
+            Confirmation code
+            <input id="confirmCode" inputmode="numeric" required />
+          </label>
+          <button class="primary-btn" type="submit">Confirm account</button>
+        </form>
+
+        <p class="auth-message" id="authMessage" role="status"></p>
+      </div>
+    </section>
+
+    <div class="app-shell is-hidden" id="appShell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand">
+          <span class="brand-mark">F</span>
+          <div>
+            <strong>FinWise</strong>
+            <span>Personal banking</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <a class="active" href="#" data-view="dashboard">Dashboard</a>
+          <a href="#" data-view="accounts">Accounts</a>
+          <a href="#" data-view="transactions">Transactions</a>
+          <a href="#" data-view="folders">Folders</a>
+
+          <a href="#" data-view="budgets">Budgets</a>
+          <a href="#" data-view="reports">Reports</a>
+          <a href="#" data-view="settings">Settings</a>
+        </nav>
+
+      </aside>
+
+      <main class="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Personal Finance Dashboard</p>
+            <h1 id="pageTitle">Welcome Back</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-btn" aria-label="Search">⌕</button>
+            <button class="secondary-btn" id="lightThemeBtn">☀️ Light</button><button class="secondary-btn" id="darkThemeBtn">🌙 Dark</button>
+
+            <button class="secondary-btn" id="signOutBtn">Sign out</button>
+            <button class="primary-btn" id="addTransactionBtn">+ Transaction</button>
+          </div>
+        </header>
+
+        <section class="view-section active" id="dashboardView">
+          <section class="metric-grid" aria-label="Financial summary">
+            <article class="metric-card">
+              <span>Total Balance</span>
+              <strong id="totalBalance">₹0</strong>
+              <small class="positive">+8.2% this month</small>
+            </article>
+            <article class="metric-card">
+              <span>Monthly Income</span>
+              <strong id="monthlyIncome">₹0</strong>
+              <small>From 4 sources</small>
+            </article>
+            <article class="metric-card">
+              <span>Monthly Expenses</span>
+              <strong id="monthlyExpenses">₹0</strong>
+              <small class="warning">72% of budget used</small>
+            </article>
+            <article class="metric-card">
+              <span>Net Savings</span>
+              <strong id="netSavings">₹0</strong>
+              <small class="positive">On track</small>
+            </article>
+          </section>
+
+          <section class="content-grid">
+            <article class="panel cashflow-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Cash Flow</h2>
+                  <p>Income and expense trend</p>
+                </div>
+                <select id="rangeSelect" aria-label="Chart range">
+                  <option>Last 6 months</option>
+                  <option>Last 12 months</option>
+                </select>
+              </div>
+              <canvas id="cashflowChart" height="260" aria-label="Cash flow chart"></canvas>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Spending Mix</h2>
+                  <p>By category</p>
+                </div>
+              </div>
+              <div class="donut-wrap">
+                <canvas id="categoryChart" width="220" height="220" aria-label="Category spending chart"></canvas>
+                <ul class="legend" id="categoryLegend"></ul>
+              </div>
+            </article>
+          </section>
+
+          <section class="content-grid lower-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Recent Transactions</h2>
+                  <p id="transactionStatus">Latest account activity</p>
+                </div>
+                <button class="text-btn" data-view-button="transactions">View all</button>
+              </div>
+              <div class="transaction-list" id="transactionList"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Budget Progress</h2>
+                  <p>Monthly category limits</p>
+                </div>
+              </div>
+              <div class="budget-list" id="budgetList"></div>
+            </article>
+          </section>
+        </section>
+
+        <section class="view-section" id="accountsView">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Accounts</h2>
+                <p>Your connected banking balances</p>
+              </div>
+            </div>
+            <div class="account-grid" id="accountList"></div>
+          </article>
+        </section>
+
+        <section class="view-section" id="transactionsView">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Transactions</h2>
+                <p>Full account activity</p>
+              </div>
+              <div class="panel-actions">
+                <select id="folderFilter" aria-label="Filter transactions by folder"></select>
+                <button class="secondary-btn" data-open-folder>Create folder</button>
+                <button class="primary-btn" data-open-transaction>+ Transaction</button>
+              </div>
+
+            </div>
+            <div class="transaction-table" id="fullTransactionList"></div>
+          </article>
+        </section>
+
+        <section class="view-section" id="foldersView">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Folders</h2>
+                <p>Organize transactions by purpose</p>
+              </div>
+              <button class="primary-btn" data-open-folder>Create folder</button>
+            </div>
+            <div class="folder-grid" id="folderList"></div>
+          </article>
+        </section>
+
+
+        <section class="view-section" id="budgetsView">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Monthly Budget</h2>
+                <p>Overall spend against category limits</p>
+              </div>
+              <strong id="budgetSummary">₹0 left</strong>
+            </div>
+            <div class="budget-overview" id="budgetOverview"></div>
+          </article>
+        </section>
+
+        <section class="view-section" id="reportsView">
+          <section class="metric-grid compact-grid" aria-label="Report summary">
+            <article class="metric-card">
+              <span>Cash Flow</span>
+              <strong id="reportCashFlow">₹0</strong>
+              <small>Income minus expenses</small>
+            </article>
+            <article class="metric-card">
+              <span>Top Spending</span>
+              <strong id="reportTopCategory">-</strong>
+              <small id="reportTopCategoryAmount">₹0</small>
+            </article>
+            <article class="metric-card">
+              <span>Budget Health</span>
+              <strong id="reportBudgetHealth">0%</strong>
+              <small>Monthly limit used</small>
+            </article>
+            <article class="metric-card">
+              <span>Transactions</span>
+              <strong id="reportTransactionCount">0</strong>
+              <small>Loaded for this user</small>
+            </article>
+          </section>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h2>Monthly Report</h2>
+                <p>Category-level spending insight</p>
+              </div>
+            </div>
+            <div class="report-list" id="reportList"></div>
+
+          </article>
+        </section>
+
+        <section class="view-section" id="settingsView">
+          <section class="settings-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Profile</h2>
+                  <p>Your signed-in account</p>
+                </div>
+              </div>
+              <div class="settings-list" id="profileSettings"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Preferences</h2>
+                  <p>Personal dashboard settings</p>
+                </div>
+              </div>
+              <div class="settings-list" id="appSettings"></div>
+            </article>
+          </section>
+
+        </section>
+      </main>
+    </div>
+
+    <dialog id="transactionDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="panel-header">
+          <div>
+            <h2>Add Transaction</h2>
+        
+
+          </div>
+          <button class="icon-btn" value="cancel" aria-label="Close">x</button>
+        </div>
+        <label>
+          Description
+          <input id="descriptionInput" required placeholder="Coffee, salary, groceries" />
+        </label>
+        <label>
+          Amount
+          <input id="amountInput" required type="number" min="1" step="0.01" placeholder="120.00" />
+        </label>
+        <label>
+          Type
+          <select id="typeInput">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </label>
+        <label>
+          Category
+          <select id="categoryInput">
+            <option>Food</option>
+            <option>Transport</option>
+            <option>Rent</option>
+            <option>Shopping</option>
+            <option>Salary</option>
+          </select>
+        </label>
+        <label>
+          Folder
+          <select id="folderInput"></select>
+        </label>
+
+        <button class="primary-btn" value="default">Save transaction</button>
+      </form>
+    </dialog>
+
+    <dialog id="folderDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="panel-header">
+          <div>
+            <h2>Create Folder</h2>
+            <p>Use folders to group related transactions.</p>
+          </div>
+          <button class="icon-btn" value="cancel" aria-label="Close">x</button>
+        </div>
+        <label>
+          Folder name
+          <input id="folderNameInput" required placeholder="Travel, subscriptions, bills" />
+        </label>
+        <button class="primary-btn" value="default">Create folder</button>
+      </form>
+    </dialog>
+
+
+    <script src="./app.js"></script>
+  </body>
+</html>
