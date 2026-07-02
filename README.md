@@ -142,14 +142,9 @@ Deployment process:
 
 ## 📈 Future Improvements
 
-- API Gateway Integration
-- AWS Lambda Backend
-- Amazon DynamoDB Database
-- Expense Analytics
 - Budget Alerts
 - PDF Report Export
 - Multi-Currency Support
-- User Profile Management
 - Recurring Transactions
 - Email Notifications
 
